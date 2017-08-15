@@ -8,7 +8,7 @@ function validateUserInfo($email){
 	if(!preg_match("/^[_\.0-9a-zA-Z-]+@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,6}$/i", $email))
 		return -2;// email formati hatali
 
-	$control  = mysql_fetch_object(mysql_query("select count(id) as cnt from users where email='$email' "));
+	$control  = mysqli_fetch_object(mysqli_query($connection, "select count(id) as cnt from users where email='$email' "));
 	if($control->cnt > 0){
 		return -1;// Bu email adresi sistemimizde daha önceden kullanılmış...
 	}
@@ -18,24 +18,24 @@ function validateUserInfo($email){
 
 // kullanici kaydi yapan method
 function userRegister(User $user){
-
-	$email = mysql_real_escape_string($user->email);
+  global $connection;
+	$email = mysqli_real_escape_string($connection, $user->email);
 	if(validateUserInfo($email) == 1){
-		mysql_query("insert into users(name,surname, gender,email,password,phoneNumber,userType,schoolName,section,class,grade)
-						values('".mysql_real_escape_string($user->name)."',
-										'".mysql_real_escape_string($user->surname)."',
-										'".mysql_real_escape_string($user->citizenId)."',
+		mysqli_query($connection, "insert into users(name,surname, gender,email,password,phoneNumber,userType,schoolName,section,class,grade)
+						values('".mysqli_real_escape_string($connection, $user->name)."',
+										'".mysqli_real_escape_string($connection, $user->surname)."',
+										'".mysqli_real_escape_string($connection, $user->citizenId)."',
 										'".$user->gender."',
 										'".$email."',
-										'".md5(mysql_real_escape_string($user->password))."',
-										'".mysql_real_escape_string($user->phoneNumber)."',
+										'".md5(mysqli_real_escape_string($connection, $user->password))."',
+										'".mysqli_real_escape_string($connection, $user->phoneNumber)."',
 										'".$user->userType."',
-										'".mysql_real_escape_string($user->schoolName)."',
-										'".mysql_real_escape_string($user->section)."',
-										'".mysql_real_escape_string($user->class)."',
-										'".mysql_real_escape_string($user->grade)."'
+										'".mysqli_real_escape_string($connection, $user->schoolName)."',
+										'".mysqli_real_escape_string($connection, $user->section)."',
+										'".mysqli_real_escape_string($connection, $user->class)."',
+										'".mysqli_real_escape_string($connection, $user->grade)."'
 										)") or die("Hata:servletoperations:userRegister:Kullanici kaydi sırasında hata oluştu");
-		return mysql_affected_rows() > 0 ? 1 : 0;
+		return mysqli_affected_rows($connection) > 0 ? 1 : 0;
 
 	}else{
 		return 0;
@@ -44,43 +44,45 @@ function userRegister(User $user){
 
 // kullanici guncelleme yapan method
 function updateUser(User $user){
-				mysql_query("update users
-	 												set name = '".mysql_real_escape_string($user->name)."',
-															surname = '".mysql_real_escape_string($user->surname)."',
-															citizenId = '".mysql_real_escape_string($user->citizenId)."',
-															phoneNumber = '".md5(mysql_real_escape_string($user->phoneNumber))."',
-															schoolName = '".md5(mysql_real_escape_string($user->schoolName))."',
-															section = '".md5(mysql_real_escape_string($user->section))."',
-															class = '".md5(mysql_real_escape_string($user->class))."',
-															grade = '".md5(mysql_real_escape_string($user->grade))."'
-												where id = ".mysql_real_escape_string($user->id));
-	return mysql_affected_rows() > 0 ? 1 : 0;
+				global $connection;
+				mysqli_query($connection, "update users
+	 												set name = '".mysqli_real_escape_string($connection, $user->name)."',
+															surname = '".mysqli_real_escape_string($connection, $user->surname)."',
+															citizenId = '".mysqli_real_escape_string($connection, $user->citizenId)."',
+															phoneNumber = '".md5(mysqli_real_escape_string($connection, $user->phoneNumber))."',
+															schoolName = '".md5(mysqli_real_escape_string($connection, $user->schoolName))."',
+															section = '".md5(mysqli_real_escape_string($connection, $user->section))."',
+															class = '".md5(mysqli_real_escape_string($connection, $user->class))."',
+															grade = '".md5(mysqli_real_escape_string($connection, $user->grade))."'
+												where id = ".mysqli_real_escape_string($connection, $user->id));
+	return mysqli_affected_rows($connection) > 0 ? 1 : 0;
 }
 
 // kullanici sifresini guncelleme yapan method
 function changePassword(User $user){
-				mysql_query("update users
-	 												set password = '".mysql_real_escape_string($user->password)."'
-												where id = ".mysql_real_escape_string($user->id));
-	return mysql_affected_rows() > 0 ? 1 : 0;
+				global $connection;
+				mysqli_query($connection, "update users
+	 												set password = '".mysqli_real_escape_string($connection, $user->password)."'
+												where id = ".mysqli_real_escape_string($connection, $user->id));
+	return mysqli_affected_rows($connection) > 0 ? 1 : 0;
 }
 
 // kullanici login olur. kullaniciyi  doneriz.
 function loginControl($email, $password){
-
-	$query = mysql_query("select * from users where email = '".mysql_real_escape_string($email)."' and password='".md5($password)."' ");
+	global $connection;
+	$query = mysqli_query($connection, "select * from users where email = '".mysqli_real_escape_string($connection, $email)."' and password='".md5($password)."' ");
 	return getUserFromSQLQuery($query);
 }
 
 // ogrencileri isim soyisim veya tc kimlik numarasina gore arar.
 function searchStudents(User $student){
-
-	$query = mysql_query("select * from users
+  global $connection;
+	$query = mysqli_query($connection, "select * from users
 												where (
-																(name like '%".mysql_real_escape_string($student->name)."%'
-																		and surname like '%".mysql_real_escape_string($student->surname)."%')
+																(name like '%".mysqli_real_escape_string($connection, $student->name)."%'
+																		and surname like '%".mysqli_real_escape_string($connection, $student->surname)."%')
 																and
-																(citizenId like '%".mysql_real_escape_string($student->citizenId)."%')
+																(citizenId like '%".mysqli_real_escape_string($connection, $student->citizenId)."%')
 															)
 															and userType = 0 ");
 	return getUserFromSQLQuery($query);
@@ -88,7 +90,7 @@ function searchStudents(User $student){
 
 function getUserFromSQLQuery($mysqlQuery){
 	$users = array();
-	while($userRow = mysql_fetch_object($mysqlQuery)){
+	while($userRow = mysqli_fetch_object($mysqlQuery)){
 		$user = new User();
 		$user->id = $userRow->id;
 		$user->name = $userRow->name;
@@ -110,14 +112,14 @@ function getUserFromSQLQuery($mysqlQuery){
 
 // Derslerin listesini doneriz.
 function getLessonList(){
-
-	$query = mysql_query("select * from lessons");
+  global $connection;
+	$query = mysqli_query($connection, "select * from lessons");
 	return getLessonFromSQLQuery($query);
 }
 
 function getLessonFromSQLQuery($mysqlQuery){
 	$lessons = array();
-	while($lessonRow = mysql_fetch_object($mysqlQuery)){
+	while($lessonRow = mysqli_fetch_object($mysqlQuery)){
 		$lesson = new Lesson();
 		$lesson->id = $lessonRow->id;
 		$lesson->name = $lessonRow->name;
@@ -126,16 +128,41 @@ function getLessonFromSQLQuery($mysqlQuery){
 	return $lessons;
 }
 
+function getLesson($id){
+	global $connection;
+	$lessonRow = mysqli_fetch_object(mysqli_query($connection, "select * from lessons where id = ".mysqli_real_escape_string($connection, $id)));
+	$lesson = new Lesson();
+	$lesson->id = $lessonRow->id;
+	$lesson->name = $lessonRow->name;
+	return $lesson;
+}
+
+function lessonDuzenle($id, $name){
+	 global $connection;
+	 mysqli_query($connection, "update lessons set name = '".mysqli_real_escape_string($connection, $name)."' where id = ".mysqli_real_escape_string($connection, $id));
+}
+
+function lessonEkle($name){
+	global $connection;
+  mysqli_query($connection, "select * from lessons where name = '".mysqli_real_escape_string($connection, $name)."'");
+	if(mysqli_affected_rows($connection) < 1){
+		mysqli_query($connection, "insert into lessons (name) values ('".mysqli_real_escape_string($connection, $name)."')");
+		return 1;
+	}else {
+		return 0;
+	}
+}
+
 // Deneyap listesini doneriz.
 function getDeneyapList(){
-
-	$query = mysql_query("select * from deneyap");
+  global $connection;
+	$query = mysqli_query($connection, "select * from deneyap");
 	return getDeneyapFromSQLQuery($query);
 }
 
 function getDeneyapFromSQLQuery($mysqlQuery){
 	$deneyaps = array();
-	while($deneyapRow = mysql_fetch_object($mysqlQuery)){
+	while($deneyapRow = mysqli_fetch_object($mysqlQuery)){
 		$deneyap = new Deneyap();
 		$deneyap->id = $deneyapRow->id;
 		$deneyap->name = $deneyapRow->name;
@@ -145,7 +172,8 @@ function getDeneyapFromSQLQuery($mysqlQuery){
 }
 
 function getDeneyap($id){
-	$deneyapRow = mysql_fetch_object(mysql_query("select * from deneyap where id = ".mysql_real_escape_string($id)));
+	global $connection;
+	$deneyapRow = mysqli_fetch_object(mysqli_query($connection, "select * from deneyap where id = ".mysqli_real_escape_string($connection, $id)));
 	$deneyap = new Deneyap();
 	$deneyap->id = $deneyapRow->id;
 	$deneyap->name = $deneyapRow->name;
@@ -153,13 +181,15 @@ function getDeneyap($id){
 }
 
 function deneyapDuzenle($id, $name){
-	 mysql_query("update deneyap set name = '".mysql_real_escape_string($name)."' where id = ".mysql_real_escape_string($id));
+	 global $connection;
+	 mysqli_query($connection, "update deneyap set name = '".mysqli_real_escape_string($connection, $name)."' where id = ".mysqli_real_escape_string($connection, $id));
 }
 
 function deneyapEkle($name){
-  mysql_query("select * from deneyap where name = '".mysql_real_escape_string($name)."'");
-	if(mysql_affected_rows() < 1){
-		mysql_query("insert into deneyap (name) values ('".mysql_real_escape_string($name)."')");
+	global $connection;
+  mysqli_query($connection, "select * from deneyap where name = '".mysqli_real_escape_string($connection, $name)."'");
+	if(mysqli_affected_rows($connection) < 1){
+		mysqli_query($connection, "insert into deneyap (name) values ('".mysqli_real_escape_string($connection, $name)."')");
 		return 1;
 	}else {
 		return 0;
@@ -168,8 +198,8 @@ function deneyapEkle($name){
 
 // ilgili ogrencinin ilgili ders icin yoklama bilgilerini doner
 function getStudentAttendenceList(User $student, Lesson $lesson){
-
-	$query = mysql_query("select a.id, a.scheduleId, a.instructorId, a.studentId, a.presence, concat(u.name, ' ', u.surname) as studentNameSurname, s.date lessonDate
+  global $connection;
+	$query = mysqli_query($connection, "select a.id, a.scheduleId, a.instructorId, a.studentId, a.presence, concat(u.name, ' ', u.surname) as studentNameSurname, s.date lessonDate
 												from attendance a
 												join users u on u.id = a.studentid
 												join schedule s on s.id = a.scheduleId
@@ -178,18 +208,18 @@ function getStudentAttendenceList(User $student, Lesson $lesson){
 }
 
 function updateAttendence(Attendence $attendence){
-
-				mysql_query("update attendance
-													set presence = '".mysql_real_escape_string($attendence->presence)."'
-												where id = ".mysql_real_escape_string($attendence->id));
-	return mysql_affected_rows() > 0 ? 1 : 0;
+  global $connection;
+				mysqli_query($connection, "update attendance
+													set presence = '".mysqli_real_escape_string($connection, $attendence->presence)."'
+												where id = ".mysqli_real_escape_string($connection, $attendence->id));
+	return mysqli_affected_rows($connection) > 0 ? 1 : 0;
 }
 
 // Attendece listesini doneriz.
 function getAttendenceList(User $instructor, $date){
-
-	$date = mysql_real_escape_string($date);
-	$query = mysql_query("select a.id, a.scheduleId, a.instructorId, a.studentId, a.presence, concat(u.name, ' ', u.surname) as studentNameSurname, s.date lessonDate
+  global $connection;
+	$date = mysqli_real_escape_string($connection, $date);
+	$query = mysqli_query($connection, "select a.id, a.scheduleId, a.instructorId, a.studentId, a.presence, concat(u.name, ' ', u.surname) as studentNameSurname, s.date lessonDate
 												from attendance a
 												join users u on u.id = a.studentid
 												join schedule s on s.id = a.scheduleId
@@ -199,7 +229,7 @@ function getAttendenceList(User $instructor, $date){
 
 function getAttendenceFromSQLQuery($mysqlQuery){
 	$attendences = array();
-	while($attendenceRow = mysql_fetch_object($mysqlQuery)){
+	while($attendenceRow = mysqli_fetch_object($mysqlQuery)){
 		$attendence = new Attendence();
 		$attendence->id = $attendenceRow->id;
 		$attendence->scheduleId = $attendenceRow->scheduleId;

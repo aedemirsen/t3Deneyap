@@ -1,16 +1,15 @@
 <?
 session_start();
-$dbhost		= "127.0.0.1";
-$dbuser		= "deneme";
-$dbpass		= "dene";
-$dbadi		= "dene";
+$mysql_hostname		= "0.0.0.1";
+$mysql_user		    = "dede";
+$mysql_password		= "dede";
+$mysql_database		= "dede";
 
-$baglan		= mysql_connect($dbhost,$dbuser,$dbpass);
-if(! $baglan)
+$connection	= mysqli_connect ($mysql_hostname, $mysql_user, $mysql_password, $mysql_database);
+
+if(! $connection)
   die("Mysql baglantısı sağlanamıyor");
 
-mysql_select_db($dbadi,$baglan) or die("Veritabanı baglantısı sağlanamıyor");
-
-mysql_query("SET NAMES 'uft8'");
+mysqli_query($connection, "SET NAMES 'uft8'");
 
 ?>

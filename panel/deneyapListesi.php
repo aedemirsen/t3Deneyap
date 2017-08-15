@@ -1,7 +1,7 @@
 <?php
 include '../servletoperations.php';
  ?>
-<html lang="en">
+<html lang="tr">
 <head>
   <?php
     $title = 'Deneyap Listesi';
@@ -46,7 +46,7 @@ include '../servletoperations.php';
                   $message = '';
                 }elseif ($_GET['action'] == 'editPost') {
                   deneyapDuzenle($_GET['id'], $_POST['name']);
-                  $message = 'Islem Basarili';
+                  $message = 'İşlem Başarılı';
                 }elseif ($_GET['action'] == 'add') {
                   ?>
                     <form action="deneyapListesi.php?action=addPost" method="post">
@@ -63,7 +63,7 @@ include '../servletoperations.php';
                   if($result == 0){
                     $message = 'Varolan bir deneyap eklemek istediniz';
                   }else {
-                      $message = 'Islem Basarili';
+                      $message = 'İşlem Başarılı';
                   }
                 }
                 ?>
