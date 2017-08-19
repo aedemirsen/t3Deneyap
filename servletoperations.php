@@ -15,7 +15,8 @@ function validateUserInfo($email){
 
 	return 1;
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 // kullanici kaydi yapan method
 function userRegister(User $user){
   global $connection;
@@ -109,7 +110,8 @@ function getUserFromSQLQuery($mysqlQuery){
 	}
 	return $users;
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 // Derslerin listesini doneriz.
 function getLessonList(){
   global $connection;
@@ -152,7 +154,79 @@ function lessonEkle($name){
 		return 0;
 	}
 }
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+// Derslerin listesini doneriz.
+function getScheduleList(){
+  global $connection;
+	$query = mysqli_query($connection, "select s.*, l.name lessonName, d.name deneyapName
+	 																		from schedule s
+																			join lessons l on l.id = s.lessonId
+																			join deneyap d on d.id = s.deneyapId
+																			order by s.id desc");
+	return getScheduleFromSQLQuery($query);
+}
 
+function getScheduleFromSQLQuery($mysqlQuery){
+	$schedules = array();
+	while($scheduleRow = mysqli_fetch_object($mysqlQuery)){
+		$schedule = new Schedule();
+		$schedule->id = $scheduleRow->id;
+		$schedule->lessonId = $scheduleRow->lessonId;
+		$schedule->deneyapId = $scheduleRow->deneyapId;
+		$schedule->date = $scheduleRow->date;
+		$schedule->lessonName = $scheduleRow->lessonName;
+		$schedule->deneyapName = $scheduleRow->deneyapName;
+		$schedules[] = $schedule;
+	}
+	return $schedules;
+}
+
+function getSchedule($id){
+	global $connection;
+	$scheduleRow = mysqli_fetch_object(mysqli_query($connection, "select s.*, l.name lessonName, d.name deneyapName
+			 																		from schedule s
+																					join lessons l on l.id = s.lessonId
+																					join deneyap d on d.id = s.deneyapId
+																					 where s.id = ".mysqli_real_escape_string($connection, $id)));
+	$schedule = new Schedule();
+	$schedule->id = $scheduleRow->id;
+	$schedule->lessonId = $scheduleRow->lessonId;
+	$schedule->deneyapId = $scheduleRow->deneyapId;
+	$schedule->date = $scheduleRow->date;
+	$schedule->lessonName = $scheduleRow->lessonName;
+	$schedule->deneyapName = $scheduleRow->deneyapName;
+	return $schedule;
+}
+
+function scheduleDuzenle($id, $deneyapId, $lessonId, $date){
+	 global $connection;
+	 mysqli_query($connection, "update schedule set
+	 																deneyapId = '".mysqli_real_escape_string($connection, $deneyapId)."' ,
+																	lessonId = '".mysqli_real_escape_string($connection, $lessonId)."' ,
+																	date = '".mysqli_real_escape_string($connection, $date)."'
+															where id = ".mysqli_real_escape_string($connection, $id));
+}
+
+function scheduleEkle($deneyapId, $lessonId, $date){
+	global $connection;
+  mysqli_query($connection, "select * from schedule
+														where deneyapId = '".mysqli_real_escape_string($connection, $deneyapId)."'
+														and lessonId = '".mysqli_real_escape_string($connection, $lessonId)."'
+														and date = '".mysqli_real_escape_string($connection, $date)."' ");
+	if(mysqli_affected_rows($connection) < 1){
+		mysqli_query($connection, "insert into schedule (deneyapId, lessonId, date)
+											values ('".mysqli_real_escape_string($connection, $deneyapId)."',
+											'".mysqli_real_escape_string($connection, $lessonId)."',
+											'".mysqli_real_escape_string($connection, $date)."')");
+		return 1;
+	}else {
+		return 0;
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 // Deneyap listesini doneriz.
 function getDeneyapList(){
   global $connection;
@@ -195,7 +269,8 @@ function deneyapEkle($name){
 		return 0;
 	}
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 // ilgili ogrencinin ilgili ders icin yoklama bilgilerini doner
 function getStudentAttendenceList(User $student, Lesson $lesson){
   global $connection;
@@ -242,4 +317,6 @@ function getAttendenceFromSQLQuery($mysqlQuery){
 	}
 	return $attendences;
 }
+//////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
 ?>

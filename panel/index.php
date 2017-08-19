@@ -1,8 +1,7 @@
 <?php
 include '../servletoperations.php';
  ?>
-<html lang="en">
-
+<html lang="tr">
 <head>
   <?php
     $title = 'Deneyap Yönetim';

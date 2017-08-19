@@ -42,6 +42,8 @@ class Schedule{
 	public $lessonId;//m
   public $deneyapId;//m
   public $date;
+  public $lessonName;//just for Data Transfer
+  public $deneyapName;//just for Data Transfer
 }
 
 class Attendence{

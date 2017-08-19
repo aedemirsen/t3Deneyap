@@ -20,3 +20,7 @@
 <script src="js/custom.min.js"></script>
 <script src="js/dashboard1.js"></script>
 <script src="../panel/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+<!-- google maps api -->
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script src="../plugins/bower_components/gmaps/gmaps.min.js"></script>
+<script src="../plugins/bower_components/gmaps/jquery.gmaps.js"></script>

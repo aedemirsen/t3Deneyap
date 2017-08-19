@@ -30,6 +30,7 @@ include '../servletoperations.php';
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
+                <div class="white-box">
                 <?
                 if($_GET['action'] == 'edit'){
                   $lesson = getLesson($_GET['id']);
@@ -37,7 +38,7 @@ include '../servletoperations.php';
                   <form action="dersListesi.php?action=editPost&id=<?=$lesson->id?>" method="post">
                     <div class="form-group">
                       <label for="link">Adı :</label>
-                      <input type="text" class="form-control" id="name" name="name" value="<?=$lesson->name?>" />
+                      <input type="text" class="form-control form-control-line" id="name" name="name" value="<?=$lesson->name?>" />
                     </div>
                     <br/>
             				<button type="submit" class="btn btn-default">Kaydet</button>
@@ -52,7 +53,7 @@ include '../servletoperations.php';
                     <form action="dersListesi.php?action=addPost" method="post">
                       <div class="form-group">
                         <label for="link">Adı :</label>
-                        <input type="text" class="form-control" id="name" name="name" value="" />
+                        <input type="text" class="form-control form-control-line" id="name" name="name" value="" />
                       </div>
                       <br/>
               				<button type="submit" class="btn btn-default">Ekle</button>
@@ -73,6 +74,7 @@ include '../servletoperations.php';
                       <div class="col-sm-12">
                           <div class="white-box">
                               <h3 class="box-title">Dersler</h3>
+                              <a href="dersListesi.php?action=add">Yeni Ekle</a>
                               <div class="table-responsive">
                                   <table class="table ">
                                       <thead>
@@ -98,11 +100,13 @@ include '../servletoperations.php';
                                             }
                                           ?>
                                       </tbody>
-                                  </table> <a href="dersListesi.php?action=add">Yeni Ekle</a> </div>
+                                  </table>
+                                </div>
                           </div>
                       </div>
                   </div>
                   <!-- /.row -->
+                </div>
             </div>
             <!-- /.container-fluid -->
         </div>
