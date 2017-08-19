@@ -157,12 +157,15 @@ function lessonEkle($name){
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Derslerin listesini doneriz.
-function getScheduleList(){
+function getScheduleList($deneyapId, $lessonId, $date){
   global $connection;
 	$query = mysqli_query($connection, "select s.*, l.name lessonName, d.name deneyapName
 	 																		from schedule s
 																			join lessons l on l.id = s.lessonId
 																			join deneyap d on d.id = s.deneyapId
+																			where (deneyapId = '".mysqli_real_escape_string($connection, $deneyapId)."' or '".mysqli_real_escape_string($connection, $deneyapId)."' = '')
+																			and (lessonId = '".mysqli_real_escape_string($connection, $lessonId)."' or '".mysqli_real_escape_string($connection, $lessonId)."' = '')
+																			and (date = '".mysqli_real_escape_string($connection, $date)."' or '".mysqli_real_escape_string($connection, $date)."' = '')
 																			order by s.id desc");
 	return getScheduleFromSQLQuery($query);
 }
