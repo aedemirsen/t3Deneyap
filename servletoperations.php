@@ -293,8 +293,8 @@ function getStudentAttendenceList(User $student, Lesson $lesson){
 function updateAttendence(Attendence $attendence){
   global $connection;
 				mysqli_query($connection, "update attendance
-													set presence = '".mysqli_real_escape_string($connection, $attendence->presence)."'
-												where id = ".mysqli_real_escape_string($connection, $attendence->id));
+																		set presence = '".mysqli_real_escape_string($connection, $attendence->presence)."'
+																	where id = ".mysqli_real_escape_string($connection, $attendence->id));
 	return mysqli_affected_rows($connection) > 0 ? 1 : 0;
 }
 

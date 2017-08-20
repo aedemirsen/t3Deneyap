@@ -2,10 +2,10 @@
 ob_start();
 session_start();
 
-$mysql_hostname		= "0000";
-$mysql_user		    = "0000";
-$mysql_password		= "0000";
-$mysql_database		= "0000";
+$mysql_hostname		= "94.73.170.208";
+$mysql_user		    = "t3vakfimobil";
+$mysql_password		= "YVdo88E4";
+$mysql_database		= "t3vakfiMobil";
 
 $connection	= mysqli_connect ($mysql_hostname, $mysql_user, $mysql_password, $mysql_database);
 
