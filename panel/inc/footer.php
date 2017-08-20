@@ -1,4 +1,10 @@
-<footer class="footer text-center"> 2017 &copy; Pixel Admin brought to you by wrappixel.com </footer>
+<?
+if(basename($_SERVER["PHP_SELF"]) != 'login.php'){
+?>
+    <footer class="footer text-center"> 2017 &copy; Türkiye Teknoloji Takımı Vakfı </footer>
+<?
+}
+?>
 
 <!-- jQuery -->
 <script src="../panel/plugins/bower_components/jquery/dist/jquery.min.js"></script>

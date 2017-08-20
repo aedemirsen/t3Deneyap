@@ -1,5 +1,7 @@
 <?
+ob_start();
 session_start();
+
 $mysql_hostname		= "0000";
 $mysql_user		    = "0000";
 $mysql_password		= "0000";

@@ -156,7 +156,7 @@ function lessonEkle($name){
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
-// Derslerin listesini doneriz.
+// Ders Programlarinin listesini doneriz.
 function getScheduleList($deneyapId, $lessonId, $date){
   global $connection;
 	$query = mysqli_query($connection, "select s.*, l.name lessonName, d.name deneyapName
@@ -231,6 +231,11 @@ function scheduleEkle($deneyapId, $lessonId, $date){
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////
 // Deneyap listesini doneriz.
+function getDeneyapCount(){
+	global $connection;
+	$row = mysqli_fetch_array(mysqli_query($connection, "select count(*) deneyapSayisi from deneyap"));
+	return $row['deneyapSayisi'];
+}
 function getDeneyapList(){
   global $connection;
 	$query = mysqli_query($connection, "select * from deneyap");

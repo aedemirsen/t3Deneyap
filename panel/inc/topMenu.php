@@ -11,7 +11,7 @@
         </ul>
         <ul class="nav navbar-top-links navbar-right pull-right">
             <li>
-                <a class="profile-pic" href="#"> <img src="../panel/plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b> </a>
+                <a class="profile-pic" href="logout.php"> <img src="../panel/plugins/images/users/nouser.png" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Çıkış</b> </a>
             </li>
         </ul>
     </div>

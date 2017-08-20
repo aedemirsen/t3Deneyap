@@ -1,3 +1,6 @@
+<?
+include 'utils.php';
+?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,3 +28,12 @@
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+<?
+  $user = $_SESSION['user'];
+  echo $user->name;
+  if($_SESSION['user'] == null && basename($_SERVER["PHP_SELF"]) != 'login.php'){
+    header("Location: login.php");
+    exit();
+  }
+?>

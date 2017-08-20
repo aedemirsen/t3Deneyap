@@ -6,13 +6,13 @@
                 <a href="index.php" class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i><span class="hide-menu">Anasayfa</span></a>
             </li>
             <li>
-                <a href="deneyapListesi.php" class="waves-effect"><i class="fa fa-globe fa-fw" aria-hidden="true"></i><span class="hide-menu">Deneyap Listesi</span></a>
+                <a href="deneyaplar.php" class="waves-effect"><i class="fa fa-globe fa-fw" aria-hidden="true"></i><span class="hide-menu">Deneyap Listesi</span></a>
             </li>
             <li>
-                <a href="dersListesi.php" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i><span class="hide-menu">Ders Listesi</span></a>
+                <a href="lessons.php" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i><span class="hide-menu">Ders Listesi</span></a>
             </li>
             <li>
-                <a href="dersProgrami.php" class="waves-effect"><i class="fa fa-columns fa-fw" aria-hidden="true"></i><span class="hide-menu">Ders Programı</span></a>
+                <a href="schedule.php" class="waves-effect"><i class="fa fa-columns fa-fw" aria-hidden="true"></i><span class="hide-menu">Ders Programı</span></a>
             </li>
             <li>
                 <a href="profile.php" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i><span class="hide-menu">Profile</span></a>
